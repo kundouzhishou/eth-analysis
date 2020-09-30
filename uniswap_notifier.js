@@ -81,8 +81,8 @@ async function tick() {
                 targetReserve = reserve0;
                 baseReserve = reserve1;
             }
-            let nameInfo = `<a href="https://www.google.com/search?q=twitter+${targetToken["name"].replace(/ /g,"+")}">${targetToken["name"]}</a> (${targetToken["symbol"]})`
-            let address = targetToken["id"];
+            let nameInfo = getGoogleLink(targetToken["name"],`twitter+${targetToken["name"].replace(/ /g,"+")}`) + `(${targetToken["symbol"]})`;
+            let address = getGoogleLink(targetToken["id"],targetToken["id"]);
             let reserveETH = parseFloat(element["reserveETH"]).toFixed(2);
             // utc + 8
             let time = new Date(createdAtTimestamp * 1000 + 8*60*60*1000).toLocaleString();
@@ -94,13 +94,17 @@ async function tick() {
                     `${baseReserve} ${baseToken["symbol"]}\n` + 
                     `[时间]:${time}`;
 
-            if(reserveETH > 20) {
+            if(reserveETH > 100) {
                 doNotify(msg);
                 // 每次最多执行一次，多了怕提醒太频繁被拒绝
                 break;
             }
         };
     });
+}
+
+function getGoogleLink(text,searchContent) {
+    return `<a href="https://www.google.com/search?q=${searchContent}">${text}</a>`;
 }
 
 function doNotify(str) {
