@@ -59,7 +59,7 @@ async function tick() {
         let len = pairs.length;
         for(var i = len - 1; i >= 0; i--) {
             let element = pairs[i];
-            console.log(element);
+            // console.log(element);
             createdAtTimestamp = parseInt(element["createdAtTimestamp"]);
             
             // 时间从低到高更新
@@ -85,7 +85,7 @@ async function tick() {
             let address = targetToken["id"];
             let reserveETH = parseFloat(element["reserveETH"]).toFixed(2);
             // utc + 8
-            let time = new Date(createdAtTimestamp * 1000 + 8*60*60).toLocaleString();
+            let time = new Date(createdAtTimestamp * 1000 + 8*60*60*1000).toLocaleString();
             let msg = `${nameInfo}\n`+ 
                     `[地址]：${address}\n` + 
                     `[流动性]:${reserveETH} ETH\n` + 
@@ -120,7 +120,7 @@ async function run() {
 }
 
 console.log(new Date(),"start uniswap notify service ...");
-console.log("now:" + (Math.floor(new Date().getTime() / 1000)));
+console.log("now:" + (Math.floor(new Date().getTime() / 1000) - 300));
 run();
 // tick();
 // doNotify(`<a href="https://www.google.com/search?q=twitter+Topswap/">test</a>`);
