@@ -10,11 +10,12 @@ const NOTIFY_URL = 'http://miaotixing.com/trigger';
 const ID_DOMAINM = config.miaotixing.id;
 
 // var lastPairTime = 1601441127;
-var lastPairTime =  Math.floor(new Date().getTime() / 1000);
+// 不知道为何比uniswap的时间快一点
+var lastPairTime =  Math.floor(new Date().getTime() / 1000) - 300;
 
 const query_sql = `
 {
-    pairs (orderBy: createdAtTimestamp where: {createdAtTimestamp_gt:%s} first:10 orderDirection:asc) {
+    pairs (orderBy: createdAtTimestamp where: {createdAtTimestamp_gt:%s} first:10 orderDirection:desc) {
         token0 {
             id
             name
@@ -55,11 +56,15 @@ async function tick() {
             return;
         }
         pairs = data["data"]["pairs"];
-        for(const element of pairs) {
+        let len = pairs.length;
+        for(var i = len - 1; i >= 0; i--) {
+            let element = pairs[i];
+            console.log(element);
             createdAtTimestamp = parseInt(element["createdAtTimestamp"]);
-            if (createdAtTimestamp > lastPairTime) {
-                lastPairTime = createdAtTimestamp;
-            }
+            
+            // 时间从低到高更新
+            lastPairTime = createdAtTimestamp;
+
             token0 = element["token0"];
             token1 = element["token1"];
             reserve0 = parseFloat(element["reserve0"]).toFixed(2);
@@ -88,9 +93,9 @@ async function tick() {
                     `${baseReserve} ${baseToken["symbol"]}\n` + 
                     `[时间]:${time}`;
 
-            if(reserveETH > 100) {
+            if(reserveETH > 20) {
                 doNotify(msg);
-                // 一次只执行1条
+                // 每次最多执行一次，多了怕提醒太频繁被拒绝
                 break;
             }
         };
@@ -114,7 +119,7 @@ async function run() {
 }
 
 console.log(new Date(),"start uniswap notify service ...");
+console.log("now:" + (Math.floor(new Date().getTime() / 1000)));
 run();
 // tick();
 // doNotify(`<a href="https://www.google.com/search?q=twitter+Topswap/">test</a>`);
-// console.log((Math.floor(new Date().getTime() / 1000)));
