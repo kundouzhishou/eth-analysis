@@ -81,10 +81,11 @@ async function tick() {
                 targetReserve = reserve0;
                 baseReserve = reserve1;
             }
-            let nameInfo = `<a href="https://www.google.com/search?q=twitter+${targetToken["name"]}">${targetToken["name"]}</a> (${targetToken["symbol"]})`
+            let nameInfo = `<a href="https://www.google.com/search?q=twitter+${targetToken["name"].replace(/ /g,"+")}">${targetToken["name"]}</a> (${targetToken["symbol"]})`
             let address = targetToken["id"];
             let reserveETH = parseFloat(element["reserveETH"]).toFixed(2);
-            let time = new Date(createdAtTimestamp * 1000).toLocaleString();
+            // utc + 8
+            let time = new Date(createdAtTimestamp * 1000 + 8*60*60).toLocaleString();
             let msg = `${nameInfo}\n`+ 
                     `[地址]：${address}\n` + 
                     `[流动性]:${reserveETH} ETH\n` + 
