@@ -82,7 +82,7 @@ async function tick() {
                 baseReserve = reserve1;
             }
             let nameInfo = getGoogleLink(targetToken["name"],`twitter+${targetToken["name"].replace(/ /g,"+")}`) + `(${targetToken["symbol"]})`;
-            let address = getGoogleLink(targetToken["id"],targetToken["id"]);
+            let address = getUniswapInfoLink(targetToken["id"],targetToken["id"]);
             let reserveETH = parseFloat(element["reserveETH"]).toFixed(2);
             // utc + 8
             let time = new Date(createdAtTimestamp * 1000 + 8*60*60*1000).toLocaleString();
@@ -105,6 +105,10 @@ async function tick() {
 
 function getGoogleLink(text,searchContent) {
     return `<a href="https://www.google.com/search?q=${searchContent}">${text}</a>`;
+}
+
+function getUniswapInfoLink(text,address) {
+    return `<a href="https://uniswap.info/token/${address}">${text}</a>`;
 }
 
 function doNotify(str) {
