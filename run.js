@@ -10,4 +10,4 @@ async function connect() {
     console.log(networkId);
 };
 
-connect();
+// connect();
