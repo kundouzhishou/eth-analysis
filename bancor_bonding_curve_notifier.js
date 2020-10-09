@@ -1,7 +1,7 @@
 var request = require('request');
 config = require("./config");
 const Web3 = require('web3');
-const web3 = new Web3(config.provider_url_server);
+var web3 = new Web3(config.provider_url_server);
 const util = require("util")
 
 const NOTIFY_URL = 'http://miaotixing.com/trigger';
@@ -17,6 +17,7 @@ var lastScanedBlockId = 0;
 async function scanAllBlock() {
     // don't notify
     NOTIFY_TAG = false;
+    web3 = new Web3(config.provider_url_local);
 
     const data = await web3.eth.isSyncing();
     // console.log(data);
@@ -28,8 +29,15 @@ async function scanAllBlock() {
     // const currentBlock = 10950651;
 
     for(i = startingBlock + 1; i <= currentBlock; i++) {
-        // console.log("scan block:" + i);
-        scanBlock(i);
+        if (i % 100000 == 0) 
+            console.log("scan block:" + i);
+        try {
+            scanBlock(i);
+        }catch(err) {
+            console.log("block " + i);
+            console.log(err);
+        }
+        
         // await new Promise(resolve => setTimeout(resolve,5*1000));
     }
 
