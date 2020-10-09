@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const NOTIFY_URL = 'http://miaotixing.com/trigger';
 
-const ID_DOMAINM = config.miaotixing.id;
+const ID_DOMAINM = config.miaotixing.id_uniswap;
 
 // var lastPairTime = 1601441127;
 // 不知道为何比uniswap的时间快一点
