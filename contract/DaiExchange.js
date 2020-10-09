@@ -9,7 +9,7 @@ const daiExchangeAbi = require("./abi/rinkeby/dai").abi;
 const addressFrom = config.eth_account.address;
 const privKey = config.eth_account.private_key;
 
-const web3 = new Web3(new Web3.providers.HttpProvider(config.provider_url_truffle));
+const web3 = new Web3(new Web3.providers.HttpProvider(config.provider_url_truffle_rinkeby));
 const daiExchangeContract = new web3.eth.Contract(JSON.parse(daiExchangeAbi),daiExchangeAddress);
 const ETH_SOLD = web3.utils.toHex(5 * 10 ** 16); // 0.05 eth
 const MIN_TOKEMS = web3.utils.toHex(0.2 * 10 ** 18); // 0.2 DAI

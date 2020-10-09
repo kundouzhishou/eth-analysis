@@ -36,5 +36,5 @@ class Compiler {
 
 module.exports = {Compiler}
 
-// const instance = new Compiler(__dirname,"Incrementer");
-// instance.compile();
+const instance = new Compiler(__dirname,"Incrementer");
+instance.compile();
