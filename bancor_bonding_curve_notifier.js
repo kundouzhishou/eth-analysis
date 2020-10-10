@@ -40,6 +40,7 @@ async function scanAllBlock() {
 }
 
 async function scanBlock(blockId) {
+    // console.log("scan block:" + blockId);
     const blockData = await web3.eth.getBlock(blockId);
     const transactionsData = blockData["transactions"];
     for(j = 0; j < transactionsData.length; j++) {
@@ -73,10 +74,11 @@ function checkInput(input) {
 async function tick() {
     const data = await web3.eth.isSyncing();
     const currentBlock = data["currentBlock"];
-    if(currentBlockk % 100 == 0)
+
+    if(currentBlock % 100 == 0)
         console.log(util.format(`currentBlock: ${data["currentBlock"]}, highestBlock: ${data["highestBlock"]}, left: ${data["highestBlock"] - data["currentBlock"]}`));
     
-        if(lastScanedBlockId == 0) {
+    if(lastScanedBlockId == 0) {
         lastScanedBlockId = currentBlock;
     }else if (lastScanedBlockId < currentBlock){
         lastScanedBlockId = lastScanedBlockId + 1;
