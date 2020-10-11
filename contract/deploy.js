@@ -16,7 +16,7 @@ const config = require('../config');
 // Attempting to deploy from account 0x8a6b9dd334940D673fC549008661c2A04770328a
 // Contract deployed at address 0x5De0A94B49607EC02E0Ece5473a64C5f7F7f43ef
 
-async function deploy(dir,contractName) {
+async function deploy(dir,contractName,args) {
     const compiler = new Compiler(dir, contractName);
     const contractFile = compiler.compile();
     // Initialization
@@ -33,7 +33,7 @@ async function deploy(dir,contractName) {
 
     const incrementerTx = incrementer.deploy ({
         data: bytecode,
-        arguments: [5],
+        arguments: args,
     });
 
     const createTransaction = await web3.eth.accounts.signTransaction(
@@ -51,4 +51,5 @@ async function deploy(dir,contractName) {
     console.log("Contract deployed at address", createReceipt.contractAddress);
 }
 
-deploy(__dirname,"Incrementer");
+// deploy(__dirname,"Incrementer", [5]);
+deploy(__dirname,"SimpleAuction",[100*60,config.eth_account.address]);

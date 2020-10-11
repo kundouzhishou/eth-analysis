@@ -1,4 +1,5 @@
-pragma solidity >=0.6;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7;
 
 interface BondingCurve {
     function calculatePurchaseReturn(uint _supply,  uint _reserveBalance, uint32 _reserveRatio, uint _depositAmount) external view returns (uint);

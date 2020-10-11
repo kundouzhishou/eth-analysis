@@ -38,7 +38,22 @@ async function increment(_value) {
         createTransaction.rawTransaction
     );
     console.log(`Tx successful with hash: ${createReceipt.transactionHash}`);
+}
 
+async function bid(amount) {
+    acutionContractAddress = "0xbD88B05BC0943d0aECBbadc79Dc607633a6B8F5B";
+    console.log(`Calling the bid function in contract at address ${acutionContractAddress}`);
+    const createTransaction = await web3.eth.accounts.signTransaction({
+        from: address,
+        to: acutionContractAddress,
+        data: incrementer.methods.bid().encodeABI(),
+        gas: web3.utils.toHex(210000),
+    },privKey);
+
+    const createReceipt = await web3.eth.sendSignedTransaction(
+        createTransaction.rawTransaction
+    );
+    console.log(`Tx successful with hash: ${createReceipt.transactionHash}`);
 }
 
 get();

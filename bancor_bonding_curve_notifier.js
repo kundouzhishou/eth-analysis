@@ -1,7 +1,7 @@
 var request = require('request');
 config = require("./config");
 const Web3 = require('web3');
-var web3 = new Web3(config.provider_url_local);
+var web3 = new Web3(config.provider_url_server);
 const util = require("util")
 
 const NOTIFY_URL = 'http://miaotixing.com/trigger';
@@ -86,7 +86,7 @@ async function tick() {
         // do nothing
         return;
     }
-    console.log("start scan :", lastScanedBlockId);
+    console.log(Date.UTC() + " start scan :", lastScanedBlockId);
 
     scanBlock(lastScanedBlockId);
 }
