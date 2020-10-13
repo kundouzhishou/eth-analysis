@@ -36,5 +36,5 @@ class Compiler {
 
 module.exports = {Compiler}
 
-const instance = new Compiler(__dirname,"Incrementer");
+const instance = new Compiler(__dirname + "/interact_example/","Counter");
 instance.compile();

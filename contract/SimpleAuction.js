@@ -40,6 +40,41 @@ async function bid(amount) {
     });
 }
 
+async function callFunction(funcName,gasPrice,gasLimit,value,args) {
+    console.log(`Calling the bid function in contract at address ${acutionContractAddress}`);
+    const createTransaction = await web3.eth.accounts.signTransaction({
+        from: address,
+        to: acutionContractAddress,
+        data: simpleAuction.methods[funcName](...args).encodeABI(),
+        gasLimit: web3.utils.toHex(gasLimit), 
+        gasPrice: web3.utils.toHex(web3.utils.toWei(gasPrice,'gwei')),
+        value: web3.utils.toHex(web3.utils.toWei(value,'ether'))
+    },privKey);
+
+    web3.eth.sendSignedTransaction(createTransaction.rawTransaction)
+    .once('receipt', receipt => {
+        console.log(`successd! hash:${receipt['transactionHash']} gasUsed:${receipt['gasUsed']}`);
+    }).on('error', error => {
+        console.log('failed:',error);
+    }).on("confirmation",(confNumber,receipt) => {
+        if (confNumber > 0) 
+            console.log(`${confNumber} confirmation`, receipt);
+    });
+}
+
+async function endAuction() {
+    console.log(`Calling the bid function in contract at address ${acutionContractAddress}`);
+
+}
+
+async function estimateGas() {
+    web3.eth.estimateGas({
+        to: acutionContractAddress,
+        data: simpleAuction.methods.bid().encodeABI(),
+    })
+    .then(console.log);
+}
+
 async function getBalance() {
     const balance = await web3.eth.getBalance(address);
     console.log(web3.utils.fromWei(balance,'ether'));
@@ -50,7 +85,11 @@ async function getGasPrice() {
     console.log(result);
 }
 
+// transfer gas = gasPrice * 21000 gwei
+
+// estimateGas();
 // getBalance();
-bid('0.005');
+// bid('0.005');
 // getGasPrice();
 // console.log(web3.utils.toWei('28','gwei'));
+callFunction("withdraw", '28', 630000, '0',[]);

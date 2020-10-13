@@ -1,9 +1,8 @@
 /**
- * https://etherscan.io/address/0x5ade7ae8660293f2ebfcefaba91d141d72d221e8#code
  *Submitted for verification at Etherscan.io on 2020-09-28
 */
 
-pragma solidity ^0.5.17;
+pragma solidity ^0.7.1;
 
 interface IERC20 {
     function totalSupply() external view returns (uint);
@@ -62,24 +61,24 @@ contract ERC20 is IERC20 {
     mapping (address => mapping (address => uint)) private _allowances;
 
     uint private _totalSupply;
-    function totalSupply() public view returns (uint) {
+    function totalSupply() override public view returns (uint) {
         return _totalSupply;
     }
-    function balanceOf(address account) public view returns (uint) {
+    function balanceOf(address account) override public view returns (uint) {
         return _balances[account];
     }
-    function transfer(address recipient, uint amount) public returns (bool) {
+    function transfer(address recipient, uint amount) override public returns (bool) {
         _transfer(msg.sender, recipient, amount);
         return true;
     }
-    function allowance(address owner, address spender) public view returns (uint) {
+    function allowance(address owner, address spender) override public view returns (uint) {
         return _allowances[owner][spender];
     }
-    function approve(address spender, uint amount) public returns (bool) {
+    function approve(address spender, uint amount) override public returns (bool) {
         _approve(msg.sender, spender, amount);
         return true;
     }
-    function transferFrom(address sender, address recipient, uint amount) public returns (bool) {
+    function transferFrom(address sender, address recipient, uint amount) override public returns (bool) {
         _transfer(sender, recipient, amount);
         _approve(sender, msg.sender, _allowances[sender][msg.sender].sub(amount, "ERC20: transfer amount exceeds allowance"));
         return true;
@@ -123,12 +122,12 @@ contract ERC20 is IERC20 {
     }
 }
 
-contract ERC20Detailed is IERC20 {
+abstract contract ERC20Detailed is IERC20 {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
 
-    constructor (string memory name, string memory symbol, uint8 decimals) public {
+    constructor (string memory name, string memory symbol, uint8 decimals) {
         _name = name;
         _symbol = symbol;
         _decimals = decimals;

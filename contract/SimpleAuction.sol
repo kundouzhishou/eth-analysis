@@ -59,6 +59,10 @@ contract SimpleAuction {
         emit HighestBidIncreased(msg.sender,msg.value);
     }
 
+    function testParam(uint param1,uint param2) public pure returns (uint) {
+        return param1 + param2;
+    }
+
     /// 取出出价 （当该出价被超越）
     function withdraw() public returns (bool) {
         uint amount = pendingReturns[msg.sender];
