@@ -94,7 +94,17 @@ async function tick() {
                     `${baseReserve} ${baseToken["symbol"]}\n` + 
                     `[时间]:${time}`;
 
-            if(reserveETH > 100) {
+            let toIgnore = false;
+            config.miaotixing.ignore_list.forEach(function(item) {
+                if(targetToken["name"].indexOf(item) > -1 || targetToken["symbol"].indexOf(item) > -1) {
+                    toIgnore = true;
+                }
+            });
+            if(toIgnore) {
+                continue;
+            }
+
+            if(reserveETH > 300) {
                 doNotify(msg);
                 // 每次最多执行一次，多了怕提醒太频繁被拒绝
                 break;
@@ -129,6 +139,7 @@ async function run() {
 
 console.log(new Date(),"start uniswap notify service ...");
 console.log("now:" + (Math.floor(new Date().getTime() / 1000) - 300));
+
 run();
 // tick();
 // doNotify(`<a href="https://www.google.com/search?q=twitter+Topswap/">test</a>`);
