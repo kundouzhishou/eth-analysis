@@ -104,7 +104,7 @@ async function tick() {
                 continue;
             }
 
-            if(reserveETH > 300) {
+            if(reserveETH > 100) {
                 doNotify(msg);
                 // 每次最多执行一次，多了怕提醒太频繁被拒绝
                 break;
